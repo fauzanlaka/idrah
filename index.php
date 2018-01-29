@@ -88,6 +88,8 @@
                             case 'dur':
                                 include 'module/dur/main.php';
                                 break;
+                            case 'user':
+                                include 'module/user/main.php';
                         }
                     ?>
                 </div>  

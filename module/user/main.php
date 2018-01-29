@@ -1,8 +1,8 @@
 <?php
     include 'connect/connect.php';
     $connect =  'connect/connect.php';
-    include 'function/student.php';
     include 'function/faculty.php';
+    include 'function/user.php';
     $operator = $_SESSION["u_id"];
     //กำหนดการเข้าถึง
     $u_status = $_SESSION['u_status'];
@@ -10,7 +10,7 @@
 ?>
 <div class="page-title">
     <div>
-        <h1><i class="fa fa-dot-circle-o"></i> SISTEM DUR</h1>
+        <h1><i class="fa fa-user-circle-o"></i> PENGGUNA SISTEM</h1>
         <p>sistem manajemen JISDA</p>
     </div>
     <div>
@@ -22,7 +22,7 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title"><i class="fa fa-dot-circle-o"></i> SISTEM DUR</h3>
+            <h3 class="card-title"><i class="fa fa-user-circle-o"></i> PENGGUNA SISTEM</h3>
             <form class="form-horizontal" name="search" id="search">
                 <input type="text" class="form-control" name="q" id="q" placeholder="Cari" onkeyup="student_search('module/dur/action/search.php', 'search')" onkeypress="return student_search_enter('module/scoreCenter/action/search.php', 'search')">
                 <input type="hidden" name="operator" id="operator" value="<?= $operator ?>">
@@ -32,15 +32,16 @@
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>NIM</th>
+                            <th>KOD</th>
                             <th>NAMA - NASAB</th>
+                            <th>PHONE</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            $pagic = "?mod=dur";
-                            $sql = "SELECT COUNT(st_id) FROM students";
+                            $pagic = "?mod=user";
+                            $sql = "SELECT COUNT(u_id) FROM user";
                             $query = mysqli_query($con, $sql);
                             $row = mysqli_fetch_row($query);
                             // Here we have the total row count
@@ -68,7 +69,7 @@
                             // This sets the range of rows to query for the chosen $pagenum
                             $limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
                             // This is your query again, it is for grabbing just one page worth of rows by applying $limit
-                            $sql = "SELECT st_id FROM students WHERE student_id!='' ORDER BY student_id DESC $limit";
+                            $sql = "SELECT * FROM user ORDER BY u_id DESC $limit";
                             $query = mysqli_query($con, $sql);
                             // This shows the user what page they are on, and the total number of pages
                             $textline1 = "จำนวน(<b>$rows</b>)";
@@ -108,11 +109,12 @@
                             }
                             $list = '';
                             while($result = mysqli_fetch_array($query)){
-                                $st_id = $result['st_id'];
+                                $u_id = $result['u_id'];
                         ?>
                         <tr>
-                            <td><?= studentInfo($st_id, 'student_id', $connect) ?></td>
-                            <td><?= studentInfo($st_id, 'firstname_rumi', $connect) ?> <?= studentInfo($st_id, 'lastname_rumi', $connect) ?></td>
+                            <td><?= userInfo($u_id, 'u_codename', $connect) ?><?= userInfo($u_id, 'u_codenumber', $connect) ?></td>
+                            <td><?= ucfirst(userInfo($u_id, 'u_fname', $connect)) ?> <?= ucfirst(userInfo($u_id, 'u_lname', $connect)) ?></td>
+                            <td><?= userInfo($u_id, 'u_telephone', $connect) ?></td>
                             <td><a href="#" onclick="formLoad('module/dur/durRegister.php', '<?= $st_id ?>', '<?= 'dur-register' ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a></td>
                         </tr>
                         <?php

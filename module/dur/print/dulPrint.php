@@ -192,9 +192,9 @@
         <br>
         <table border="1px" width="100%" class="table table-bordered">
                       <tr bgcolor="">
-                        <td align="center"><div id="subText"><b>جمله دويت</b></div></td>
-                        <td align="center"><div id="subText"><b>مركه</b></div></td>
                         <td align="center"><div id="subText"><b>تندا تاڠن</b></div></td>
+                        <td align="center"><div id="subText"><b>مركه</b></div></td>
+                        <td align="center"><div id="subText"><b>جمله دويت</b></div></td>
                         <td align="center"><div id="subText"><b>فنشرح</b></div></td>
                         <td align="center"><div id="subText"><b>مادة</b></div></td>
                         <td align="center"><div id="subText"><b>كود</b></div></td>
@@ -230,17 +230,17 @@
                         <tr>
                           
                           <td align="center">
+                              
+                          </td>
+                          
+                          <td align="center">
+                              
+                          </td>
+                          
+                          <td align="center">
                               <font size="2px">
                                 <?= $money ?>
                               </font>
-                          </td>
-                          
-                          <td align="center">
-                              
-                          </td>
-                          
-                          <td align="center">
-                              
                           </td>
                           
                           <td align="center">
@@ -273,11 +273,8 @@
                             }
                         ?>
                         <tr>
-                            <td align="center">
-                                <?= $sumMoney ?>
-                            </td>
-                            <td colspan="6" align="right"><div id="subText"><b>
-                                        جمله دويت سموا</b></div>
+                            <td colspan="7" align="right"><div id="subText"><b>
+                                    <?= $sumMoney ?> &nbsp;&nbsp;&nbsp;&nbsp;    جمله دويت سموا</b></div>
                             </td>
                         </tr>
                     </tbody>

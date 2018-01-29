@@ -10,6 +10,21 @@
             case 'ft_id':
                 return $result['ft_id'];
                 break;
+            case 'u_codename':
+                return str_replace("\'", "&#39;", $result["u_codename"]);
+                break;
+            case 'u_codenumber':
+                return str_replace("\'", "&#39;", $result["u_codenumber"]);
+                break;
+            case 'u_fname':
+                return str_replace("\'", "&#39;", $result["u_fname"]);
+                break;
+            case 'u_lname':
+                return str_replace("\'", "&#39;", $result["u_lname"]);
+                break;
+            case 'u_telephone':
+                return str_replace("\'", "&#39;", $result["u_telephone"]);
+                break;
         }
     }
 ?>
