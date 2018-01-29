@@ -25,6 +25,12 @@
             case 'u_telephone':
                 return str_replace("\'", "&#39;", $result["u_telephone"]);
                 break;
+            case 'u_idcard':
+                return str_replace("\'", "&#39;", $result["u_idcard"]);
+                break;
+            case 'u_image':
+                return str_replace("\'", "&#39;", $result["u_image"]);
+                break;
         }
     }
 ?>

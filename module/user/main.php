@@ -6,6 +6,7 @@
     $operator = $_SESSION["u_id"];
     //กำหนดการเข้าถึง
     $u_status = $_SESSION['u_status'];
+    $operator = $_SESSION["u_id"];
     if($u_status=='Admin' || $u_status=='Amir kuliah' || $u_status=='Kewangan'){
 ?>
 <div class="page-title">
@@ -22,7 +23,10 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title"><i class="fa fa-user-circle-o"></i> PENGGUNA SISTEM</h3>
+            <div class="card-title-w-btn">
+                <h3 class="title">PENGGUNA SISTEM</h3>
+                <p><a class="btn btn-primary icon-btn" href="#" onclick="formLoad('module/user/form/addNew.php', '', '<?= $operator ?>')"><i class="fa fa-plus"></i>TAMBAH</a></p>
+            </div>
             <form class="form-horizontal" name="search" id="search">
                 <input type="text" class="form-control" name="q" id="q" placeholder="Cari" onkeyup="student_search('module/dur/action/search.php', 'search')" onkeypress="return student_search_enter('module/scoreCenter/action/search.php', 'search')">
                 <input type="hidden" name="operator" id="operator" value="<?= $operator ?>">
@@ -115,7 +119,7 @@
                             <td><?= userInfo($u_id, 'u_codename', $connect) ?><?= userInfo($u_id, 'u_codenumber', $connect) ?></td>
                             <td><?= ucfirst(userInfo($u_id, 'u_fname', $connect)) ?> <?= ucfirst(userInfo($u_id, 'u_lname', $connect)) ?></td>
                             <td><?= userInfo($u_id, 'u_telephone', $connect) ?></td>
-                            <td><a href="#" onclick="formLoad('module/dur/durRegister.php', '<?= $st_id ?>', '<?= 'dur-register' ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a></td>
+                            <td><a href="#" onclick="formLoad('module/user/form/profile.php', '<?= $u_id ?>', '<?= $operator ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a></td>
                         </tr>
                         <?php
                             }
