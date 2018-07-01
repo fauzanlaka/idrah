@@ -6,6 +6,13 @@
     <li class="treeview"><a href="?mod=index"><i class="fa fa-info-circle"></i><span>DASHBOARD</span></a></li>
     <!-- user -->
     <li class="treeview"><a href="?mod=user"><i class="fa fa-user-circle-o"></i><span>PENGUNA</span></a></li>
+    <!-- staff -->
+    <li class="treeview"><a href="?mod=staff"><i class="fa fa-id-card-o"></i><span>STAFF</span><i class="fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+            <li><a href="?mod=staff"><i class="fa fa-circle-o"></i> Staff</a></li>
+            <li><a href="?mod=attendanceReport"><i class="fa fa-circle-o"></i> attendance</a></li>
+        </ul>
+    </li>
     <!-- info mahasiswa -->
     <li class="treeview"><a href="?mod=student"><i class="fa fa-group"></i><span>MAHASISWA</span></a></li>
     <!-- hasil studi -->

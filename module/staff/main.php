@@ -3,6 +3,7 @@
     $connect =  'connect/connect.php';
     include 'function/faculty.php';
     include 'function/user.php';
+    include 'function/staff/staffInfo.php';
     $operator = $_SESSION["u_id"];
     //กำหนดการเข้าถึง
     $u_status = $_SESSION['u_status'];
@@ -11,7 +12,7 @@
 ?>
 <div class="page-title">
     <div>
-        <h1><i class="fa fa-user-circle-o"></i> PENGGUNA SISTEM</h1>
+        <h1><i class="fa fa-id-card-o"></i> STAFF JISDA</h1>
         <p>sistem manajemen JISDA</p>
     </div>
     <div>
@@ -24,11 +25,11 @@
     <div class="card">
         <div class="card-body">
             <div class="card-title-w-btn">
-                <h3 class="title">PENGGUNA SISTEM</h3>
+                <h3 class="title">STAFF JISDA</h3>
                 <p><a class="btn btn-primary icon-btn" href="#" onclick="formLoad('module/user/form/addNew.php', '', '<?= $operator ?>')"><i class="fa fa-plus"></i>TAMBAH</a></p>
             </div>
             <form class="form-horizontal" name="search" id="search">
-                <input type="text" class="form-control" name="q" id="q" placeholder="Cari" onkeyup="searching('module/user/action/searching.php', 'search')" onkeypress="return searching_enter('module/user/action/searching.php', 'search')">
+                <input type="text" class="form-control" name="q" id="q" placeholder="Cari" onkeyup="staffSearch()" onkeypress="return staffSearchEnter()">
                 <input type="hidden" name="operator" id="operator" value="<?= $operator ?>">
             </form>
             <br>
@@ -44,8 +45,8 @@
                     </thead>
                     <tbody>
                         <?php
-                            $pagic = "?mod=user";
-                            $sql = "SELECT COUNT(u_id) FROM user";
+                            $pagic = "?mod=staff";
+                            $sql = "SELECT COUNT(t_id) FROM teachers";
                             $query = mysqli_query($con, $sql);
                             $row = mysqli_fetch_row($query);
                             // Here we have the total row count
@@ -73,7 +74,7 @@
                             // This sets the range of rows to query for the chosen $pagenum
                             $limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
                             // This is your query again, it is for grabbing just one page worth of rows by applying $limit
-                            $sql = "SELECT * FROM user ORDER BY u_id DESC $limit";
+                            $sql = "SELECT * FROM teachers ORDER BY t_id DESC $limit";
                             $query = mysqli_query($con, $sql);
                             // This shows the user what page they are on, and the total number of pages
                             $textline1 = "จำนวน(<b>$rows</b>)";
@@ -113,13 +114,16 @@
                             }
                             $list = '';
                             while($result = mysqli_fetch_array($query)){
-                                $u_id = $result['u_id'];
+                                $t_id = $result['t_id'];
                         ?>
                         <tr>
-                            <td><?= userInfo($u_id, 'u_codename', $connect) ?><?= userInfo($u_id, 'u_codenumber', $connect) ?></td>
-                            <td><?= ucfirst(userInfo($u_id, 'u_fname', $connect)) ?> <?= ucfirst(userInfo($u_id, 'u_lname', $connect)) ?></td>
-                            <td><?= userInfo($u_id, 'u_telephone', $connect) ?></td>
-                            <td><a href="#" onclick="formLoad('module/user/form/profile.php', '<?= $u_id ?>', '<?= $operator ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a></td>
+                            <td><?= staffInfo($t_id, 't_code', $connect) ?></td>
+                            <td><?= staffInfo($t_id, 't_fnameRumi', $connect) ?> <?= staffInfo($t_id, 't_lnameRumi', $connect) ?></td>
+                            <td><?= staffInfo($t_id, 't_telephone', $connect) ?></td>
+                            <td>
+                                <a href="#" onclick="formLoad('module/staff/form/profile.php', '<?= $t_id ?>', '<?= $operator ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a>
+                                <a href="#" onclick="formLoad('module/staff/form/attendancePersonReport.php', '<?= $t_id ?>', '<?= $operator ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> Kehadiran</button></a>
+                            </td>
                         </tr>
                         <?php
                             }
@@ -127,10 +131,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pull-left">
+            <div class="pull-left" id="pagination">
                 <?php echo $paginationCtrls; ?>
             </div>
-            <div class="pull-right">
+            <div class="pull-right" id="pagination">
                 <?php echo $textline2 ?>
             </div>
             <br>

@@ -26,6 +26,20 @@
     script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
     script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
     -->
+    <style type="text/css">
+        .textAlignVer{
+            display:block;
+            filter: flipv fliph;
+            -webkit-transform: rotate(-90deg); 
+            -moz-transform: rotate(-90deg); 
+            transform: rotate(-90deg); 
+            position:relative;
+            width:25px;
+            white-space:nowrap;
+            font-size:16px;
+            margin-bottom:10px;
+        }
+    </style>
   </head>
   <body class="sidebar-mini fixed">
         <div class="wrapper">
@@ -90,6 +104,19 @@
                                 break;
                             case 'user':
                                 include 'module/user/main.php';
+                                break;
+                            case 'staff':
+                                include 'module/staff/main.php';
+                                break;
+                            case 'attendanceReport':
+                                include 'module/staff/attendanceReport.php';
+                                break;
+                            case 'holidayeSetting':
+                                include 'module/staff/holidayAdd.php';
+                                break;
+                            /*case 'attendancePersonReport':
+                                include 'module/staff/attendancePersonReport.php';
+                                break;*/
                         }
                     ?>
                 </div>  

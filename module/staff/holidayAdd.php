@@ -1,8 +1,7 @@
 <?php
     include 'connect/connect.php';
     $connect =  'connect/connect.php';
-    include 'function/faculty.php';
-    include 'function/user.php';
+    include 'function/staff/staffInfo.php';
     $operator = $_SESSION["u_id"];
     //กำหนดการเข้าถึง
     $u_status = $_SESSION['u_status'];
@@ -11,7 +10,7 @@
 ?>
 <div class="page-title">
     <div>
-        <h1><i class="fa fa-user-circle-o"></i> PENGGUNA SISTEM</h1>
+        <h1><i class="fa fa-id-card-o"></i> STAFF JISDA</h1>
         <p>sistem manajemen JISDA</p>
     </div>
     <div>
@@ -24,28 +23,44 @@
     <div class="card">
         <div class="card-body">
             <div class="card-title-w-btn">
-                <h3 class="title">PENGGUNA SISTEM</h3>
-                <p><a class="btn btn-primary icon-btn" href="#" onclick="formLoad('module/user/form/addNew.php', '', '<?= $operator ?>')"><i class="fa fa-plus"></i>TAMBAH</a></p>
+                <h3 class="title">HARI CUTI</h3>
+                <div class="btn-group"><a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog"></i> Setting <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="?mod=holidayeSetting">Hari cuti JISDA</a></li>
+                        <li><a href="?mod=attendanceReport">Laporan kerja</a></li>
+                    </ul>
+                </div>
             </div>
-            <form class="form-horizontal" name="search" id="search">
-                <input type="text" class="form-control" name="q" id="q" placeholder="Cari" onkeyup="searching('module/user/action/searching.php', 'search')" onkeypress="return searching_enter('module/user/action/searching.php', 'search')">
-                <input type="hidden" name="operator" id="operator" value="<?= $operator ?>">
+            <form name="holiday" id="holiday">
+                <div class="row mb-10">
+                    <div class="col-md-3">
+                        <label>Dari tanggal</label>
+                        <input type="date" class="form-control" name="fromDate" id="fromDate">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Hingga tanggal</label>
+                        <input type="date" class="form-control" name="toDate" id="toDate">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Hari cuti</label>
+                        <input type="text" class="form-control" name="jh_holiday_name" id="jh_holiday_name">
+                    </div>
+                    <div class="col-md-3">
+                        <label><font color='white'>Hari cuti</font></label><br>
+                        <a class="btn btn-success" onclick="holidayAdd()" id="process">SAVE</a>
+                    </div>
+                </div>
             </form>
-            <br>
-            <div id="list">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>KOD</th>
-                            <th>NAMA - NASAB</th>
-                            <th>PHONE</th>
-                            <th>AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            $pagic = "?mod=user";
-                            $sql = "SELECT COUNT(u_id) FROM user";
+            <div id="result">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><b>Hari cuti</b></td>
+                        <td><b>Hari & Tanggal</b></td>
+                        <td><b>Edit</b></td>
+                    </tr>
+                    <?php
+                            $pagic = "?mod=holidayeSetting";
+                            $sql = "SELECT COUNT(jh_id) FROM jisda_holiday";
                             $query = mysqli_query($con, $sql);
                             $row = mysqli_fetch_row($query);
                             // Here we have the total row count
@@ -73,7 +88,7 @@
                             // This sets the range of rows to query for the chosen $pagenum
                             $limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
                             // This is your query again, it is for grabbing just one page worth of rows by applying $limit
-                            $sql = "SELECT * FROM user ORDER BY u_id DESC $limit";
+                            $sql = "SELECT * FROM jisda_holiday GROUP BY jh_holiday_name ORDER BY jh_holiday DESC $limit";
                             $query = mysqli_query($con, $sql);
                             // This shows the user what page they are on, and the total number of pages
                             $textline1 = "จำนวน(<b>$rows</b>)";
@@ -113,27 +128,31 @@
                             }
                             $list = '';
                             while($result = mysqli_fetch_array($query)){
-                                $u_id = $result['u_id'];
-                        ?>
-                        <tr>
-                            <td><?= userInfo($u_id, 'u_codename', $connect) ?><?= userInfo($u_id, 'u_codenumber', $connect) ?></td>
-                            <td><?= ucfirst(userInfo($u_id, 'u_fname', $connect)) ?> <?= ucfirst(userInfo($u_id, 'u_lname', $connect)) ?></td>
-                            <td><?= userInfo($u_id, 'u_telephone', $connect) ?></td>
-                            <td><a href="#" onclick="formLoad('module/user/form/profile.php', '<?= $u_id ?>', '<?= $operator ?>')"><button class="btn btn-success btn-sm"><i class="fa fa-folder-open-o"></i> lihat</button></a></td>
-                        </tr>
-                        <?php
-                            }
-                        ?>
-                    </tbody>
+                                $jh_id = $result['jh_id'];
+                                $jh_holiday_name = $result['jh_holiday_name'];
+                                $jhName = jisdaHolidayInfo($jh_id, 'jh_holiday_name', $connect);
+                    ?> 
+                    <tr>
+                        <td><?= jisdaHolidayInfo($jh_id, 'jh_holiday_name', $connect) ?></td>
+                        <td>
+                            <?php
+                                //แสดงช่วงวันหยุด
+                                $fdMn = mysqli_query($con, "SELECT MIN(jh_holiday) AS jh_holiday FROM jisda_holiday WHERE jh_holiday_name='$jhName'");
+                                $fdMin = mysqli_fetch_array($fdMn);
+                                $min = $fdMin['jh_holiday'];
+                                $minDate = new DateTime($min);
+                                $fdMx = mysqli_query($con, "SELECT MAX(jh_holiday) AS jh_holiday FROM jisda_holiday WHERE jh_holiday_name='$jhName'");
+                                $fdMax = mysqli_fetch_array($fdMx);
+                                $max = $fdMax['jh_holiday'];
+                                $maxDate = new DateTime($max);
+                                echo $minDate->format('d-m-Y')." "." <b>Hingga</b> "." ".$maxDate->format('d-m-Y') ;
+                            ?>
+                        </td>
+                        <td><a class="btn btn-danger btn-sm" onclick="deleteHoliday('<?= $jh_holiday_name ?>')" id="deleteProcess">DELETE</a></td>
+                    </tr> 
+                            <?php } ?>
                 </table>
             </div>
-            <div class="pull-left">
-                <?php echo $paginationCtrls; ?>
-            </div>
-            <div class="pull-right">
-                <?php echo $textline2 ?>
-            </div>
-            <br>
         </div>
     </div>
 </div>

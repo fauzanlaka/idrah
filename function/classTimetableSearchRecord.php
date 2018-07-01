@@ -70,26 +70,30 @@ RS;
         $session = $registerSubjectResult['rs_session'];
         
         //percent of score updateing
-        $scoreUpdate1 = mysqli_query($con, "select s.*,ss.* from students s
-                            INNER JOIN studentsubject ss ON s.st_id=ss.st_id 
-                            WHERE ss_term='$rs_term' AND 
-                            ss_year='$rs_year' AND 
-                            ft_id='$ft_id' AND 
-                            dp_id='$dp_id' AND 
-                            s_id='$s_id' AND
-                            student_id!=''
+        $scoreUpdate1 = mysqli_query($con, "select s.*,ss.*,sr.* from students s
+                        INNER JOIN studentsubject ss ON s.st_id=ss.st_id
+                        INNER JOIN student_register sr ON sr.st_id=s.st_id
+                        WHERE 
+                        ss.ss_term='$rs_term' AND ss.ss_year='$rs_year' AND 
+                        sr.term='$rs_term' AND sr.academic_year='$rs_year' AND 
+                        ft_id='$ft_id' AND 
+                        dp_id='$dp_id' AND 
+                        s_id='$s_id' AND
+                        student_id!=''
                             ");
         $scoreUpdateCount1 = mysqli_num_rows($scoreUpdate1);
         
-        $scoreUpdate2 = mysqli_query($con, "select s.*,ss.* from students s
-                            INNER JOIN studentsubject ss ON s.st_id=ss.st_id 
-                            WHERE ss_term='$rs_term' AND 
-                            ss_year='$rs_year' AND 
-                            ft_id='$ft_id' AND 
-                            dp_id='$dp_id' AND 
-                            s_id='$s_id' AND
-                            student_id!='' AND 
-                            ss_score!=''
+        $scoreUpdate2 = mysqli_query($con, "select s.*,ss.*,sr.* from students s
+                        INNER JOIN studentsubject ss ON s.st_id=ss.st_id
+                        INNER JOIN student_register sr ON sr.st_id=s.st_id
+                        WHERE 
+                        ss.ss_term='$rs_term' AND ss.ss_year='$rs_year' AND 
+                        sr.term='$rs_term' AND sr.academic_year='$rs_year' AND 
+                        ft_id='$ft_id' AND 
+                        dp_id='$dp_id' AND 
+                        s_id='$s_id' AND
+                        student_id!='' AND
+                        ss.ss_score!=''
                             ");
         $scoreUpdateCount2 = mysqli_num_rows($scoreUpdate2);
         

@@ -112,7 +112,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
                         while($registerSubject_rs = mysqli_fetch_array($registerSubject)){
                             $re_s_id = $registerSubject_rs['s_id'];
                     ?>
-                    <td align="center"><div id="text"><?= studentGrade(scoreResult($st_id, $re_s_id, $rs_term, $rs_year, $connect)) ?></div></td>
+                    <td align="center"><div id="text"><?= scoreResult($st_id, $re_s_id, $rs_term, $rs_year, $connect) ?></div></td>
                     <?php
                         }
                     ?>

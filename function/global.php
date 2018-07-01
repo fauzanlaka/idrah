@@ -196,3 +196,46 @@
         }
     }
     
+    function teacherInfo2($t_idscan, $output, $connect){
+        include $connect;
+        $sql = mysqli_query($con, "SELECT * FROM teachers WHERE t_idscan='$t_idscan'");
+        $result = mysqli_fetch_array($sql);
+        switch ($output){
+            case 't_id':
+                return str_replace("\'", "&#39;", $result["t_id"]);
+                break;
+            case 't_fnameRumi':
+                return str_replace("\'", "&#39;", $result["t_fnameRumi"]);
+                break;
+            case 't_lnameRumi':
+                return str_replace("\'", "&#39;", $result["t_lnameRumi"]);
+                break;
+            case 'tp_id':
+                return str_replace("\'", "&#39;", $result["tp_id"]);
+                break;
+            case 't_photo':
+                return str_replace("\'", "&#39;", $result["t_photo"]);
+                break;
+        }
+    }
+    
+    function timelogInfo($tl_id, $output, $connect){
+        include $connect;
+        $sql = mysqli_query($con, "SELECT * FROM time_log WHERE tl_id='$tl_id'");
+        $result = mysqli_fetch_array($sql);
+        switch ($output){
+            case 'tl_time_start':
+                return str_replace("\'", "&#39;", $result["tl_time_start"]);
+                break;
+            case 'tl_time_late':
+                return str_replace("\'", "&#39;", $result["tl_time_late"]);
+                break;
+            case 'tl_end_late':
+                return str_replace("\'", "&#39;", $result["tl_end_late"]);
+                break;
+            case 'tl_time_back':
+                return str_replace("\'", "&#39;", $result["tl_time_back"]);
+                break;
+        }
+    }
+    

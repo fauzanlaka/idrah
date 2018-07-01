@@ -61,3 +61,32 @@ function openHide(id){
         document.getElementById(id).style.display = "none";
     }
 }
+//--------------------------------------searching--------------------------------------
+function searching(path, formId){
+    var URL = path + "?dummy=" + Math.random();
+    var data = getFrmData(formId);
+    ajaxLoadFrw('post', URL, data, 'list');
+}
+function searching_enter(path, formId){
+    if(event.keyCode==13){
+        searching(path, formId);
+        return false;
+    }
+}
+//--------------------------------------print & if press enter--------------------------------------
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+function press_Enter(){
+    if(event.keyCode==13){
+        //check();
+        return false;
+    }
+}

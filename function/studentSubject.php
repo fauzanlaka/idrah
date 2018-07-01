@@ -17,6 +17,7 @@
                         dp_id='$dp_id' AND 
                         s_id='$s_id' AND
                         student_id!=''
+                        ORDER BY student_id ASC
                         ");
     
     $subject = mysqli_query($con, "SELECT * FROM subject WHERE s_id='$s_id'");
